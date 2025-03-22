@@ -1,0 +1,94 @@
+import java.io.*;
+import java.util.Scanner;
+
+// Calculator class implementing basic operations
+class Calculator1 {
+    // Addition
+    public double add(double a, double b) {
+        return a + b;
+    }
+    
+    // Subtraction
+    public double subtract(double a, double b) {
+        return a - b;
+    }
+    
+    // Multiplication
+    public double multiply(double a, double b) {
+        return a * b;
+    }
+    
+    // Division with exception handling
+    public double divide(double a, double b) throws ArithmeticException {
+        if (b == 0) {
+            throw new ArithmeticException("Division by zero is not allowed.");
+        }
+        return a / b;
+    }
+}
+
+public class CalculatorProgram {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Calculator1 calculator = new Calculator1();
+        
+        try (FileWriter writer = new FileWriter("calculator_log.txt", true)) {
+            double num1 = 0, num2 = 0;
+            boolean validInput = false;
+            
+            // Input validation for numbers
+            while (!validInput) {
+                try {
+                    System.out.println("Enter first number:");
+                    num1 = scanner.nextDouble();
+                    
+                    System.out.println("Enter second number:");
+                    num2 = scanner.nextDouble();
+                    validInput = true;
+                } catch (Exception e) {
+                    System.out.println("Invalid input. Please enter numeric values.");
+                    scanner.next(); // Clear invalid input
+                }
+            }
+            
+            System.out.println("Choose operation: +, -, *, /");
+            char operation = scanner.next().charAt(0);
+            double result = 0;
+            boolean validOperation = true;
+            
+            try {
+                switch (operation) {
+                    case '+':
+                        result = calculator.add(num1, num2);
+                        break;
+                    case '-':
+                        result = calculator.subtract(num1, num2);
+                        break;
+                    case '*':
+                        result = calculator.multiply(num1, num2);
+                        break;
+                    case '/':
+                        result = calculator.divide(num1, num2);
+                        break;
+                    default:
+                        System.out.println("Invalid operation. Please use +, -, *, or /");
+                        writer.write("Invalid operation selected\n");
+                        validOperation = false;
+                        break;
+                }
+                
+                if (validOperation) {
+                    System.out.println("Result: " + result);
+                    writer.write("Operation: " + num1 + " " + operation + " " + num2 + " = " + result + "\n");
+                }
+            } catch (ArithmeticException e) {
+                System.out.println("Error: " + e.getMessage());
+                writer.write("Error: " + e.getMessage() + "\n");
+            }
+        } catch (IOException e) {
+            System.out.println("File writing error: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
+    }
+}
