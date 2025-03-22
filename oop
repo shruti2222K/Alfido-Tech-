@@ -1,0 +1,41 @@
+package ANI;
+import java.io.*;
+
+//Base class
+class Vehicle {
+ void startEngine() {
+     System.out.println("Vehicle engine is starting...");
+ }
+}
+
+//Derived class overriding startEngine method
+class Car extends Vehicle {
+ @Override
+ void startEngine() {
+     System.out.println("Car engine is starting with a roar!");
+ }
+}
+
+//Derived class overriding startEngine method
+class Bike extends Vehicle {
+ @Override
+ void startEngine() {
+     System.out.println("Bike engine is starting with a vroom!");
+ }
+}
+
+
+
+public class OOPDemo {
+
+	public static void main(String[] args) {
+		 Vehicle myVehicle = new Vehicle();
+	        Vehicle myCar = new Car();
+	        Vehicle myBike = new Bike();
+	        
+	        myVehicle.startEngine();
+	        myCar.startEngine();
+	        myBike.startEngine();
+	}
+
+}
